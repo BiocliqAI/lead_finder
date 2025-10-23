@@ -27,7 +27,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, loading }) => 
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          placeholder="Enter a city name (e.g., 'San Francisco')"
+          placeholder="Enter city/town or pin code..."
           className="w-full px-6 py-4 bg-transparent focus:outline-none text-slate-100 placeholder-slate-500"
           disabled={loading}
         />
