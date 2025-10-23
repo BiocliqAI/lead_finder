@@ -59,16 +59,22 @@ const App: React.FC = () => {
       <AnimatedBackground />
       <div className="relative z-10">
         <header className="text-center my-10">
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300 mb-2">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300 mb-2">
             Biocliq Lead Finder
           </h1>
-          <p className="text-slate-400 max-w-2xl mx-auto">
+          <p className="text-blue-200 max-w-2xl mx-auto">
             Find leads by location using AI powered search
           </p>
         </header>
         
         <main>
           <SearchForm onSearch={handleSearch} loading={loading} isLocationAvailable={!!userLocation} />
+
+          <div className="w-full max-w-2xl mx-auto mt-6 text-center">
+            <p className="text-blue-200 text-sm px-4">
+              Finding your potential customers is easy now. Search by City, Town or Pincode. Or if you are travelling and find out the nearby centers, just click "Near me".
+            </p>
+          </div>
 
           {loading && <StatusDisplay statuses={statusMessages} />}
 

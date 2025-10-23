@@ -41,7 +41,7 @@ export const SpecialtySelector: React.FC<SpecialtySelectorProps> = ({ selected, 
         disabled={disabled}
         className="w-full bg-slate-800 border border-slate-700 rounded-md px-4 py-2 text-left flex justify-between items-center disabled:opacity-50"
       >
-        <span className="text-slate-300">
+        <span className="text-teal-100">
           {selected.length > 0 ? `${selected.length} specialt${selected.length === 1 ? 'y' : 'ies'} selected` : 'Select specialties'}
         </span>
         <svg className={`h-5 w-5 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -59,9 +59,9 @@ export const SpecialtySelector: React.FC<SpecialtySelectorProps> = ({ selected, 
                     type="checkbox"
                     checked={selected.includes(specialty)}
                     onChange={() => handleToggle(specialty)}
-                    className="h-4 w-4 rounded bg-slate-800 border-slate-500 text-sky-500 focus:ring-sky-500"
+                    className="h-4 w-4 rounded bg-slate-800 border-slate-500 text-teal-500 focus:ring-teal-500"
                   />
-                  <span className="ml-3 text-slate-200">{specialty}</span>
+                  <span className="ml-3 text-blue-100">{specialty}</span>
                 </label>
               </li>
             ))}
