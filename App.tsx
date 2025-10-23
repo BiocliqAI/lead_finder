@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { SearchForm } from './components/SearchForm';
 import { ResultsDisplay } from './components/ResultsDisplay';
@@ -63,7 +64,7 @@ const App: React.FC = () => {
             Biocliq Lead Finder
           </h1>
           <p className="text-slate-400 max-w-2xl mx-auto">
-             Your lead generation companion
+             Smart companion for lead generation
           </p>
         </header>
         
