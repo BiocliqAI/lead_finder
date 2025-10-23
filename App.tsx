@@ -63,7 +63,7 @@ const App: React.FC = () => {
             Biocliq Lead Finder
           </h1>
           <p className="text-slate-400 max-w-2xl mx-auto">
-            Your AI-powered tool for discovering leads in the healthcare sector.
+            Find leads by location using AI powered search
           </p>
         </header>
         
