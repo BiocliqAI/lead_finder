@@ -4,6 +4,7 @@ import { ResultsDisplay } from './components/ResultsDisplay';
 import { findCentersAndSpecialists } from './services/geminiService';
 import type { ApiResponse } from './types';
 import { StatusDisplay } from './components/StatusDisplay';
+import AnimatedBackground from './components/AnimatedBackground';
 
 const App: React.FC = () => {
   const [results, setResults] = useState<ApiResponse | null>(null);
@@ -54,29 +55,32 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white p-4 sm:p-8 font-sans">
-      <header className="text-center my-10">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300 mb-2">
-          Biocliq Lead Finder
-        </h1>
-        <p className="text-slate-400 max-w-2xl mx-auto">
-          Your AI-powered tool for discovering leads in the healthcare sector.
-        </p>
-      </header>
-      
-      <main>
-        <SearchForm onSearch={handleSearch} loading={loading} isLocationAvailable={!!userLocation} />
-
-        {loading && <StatusDisplay statuses={statusMessages} />}
-
-        {error && (
-          <div className="text-center mt-8 p-4 bg-red-900/50 border border-red-700 text-red-300 rounded-lg max-w-2xl mx-auto">
-            <p><strong>Error:</strong> {error}</p>
-          </div>
-        )}
+    <div className="relative min-h-screen bg-slate-900 text-white p-4 sm:p-8 font-sans overflow-hidden">
+      <AnimatedBackground />
+      <div className="relative z-10">
+        <header className="text-center my-10">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300 mb-2">
+            Biocliq Lead Finder
+          </h1>
+          <p className="text-slate-400 max-w-2xl mx-auto">
+            Your AI-powered tool for discovering leads in the healthcare sector.
+          </p>
+        </header>
         
-        {!loading && <ResultsDisplay results={results} />}
-      </main>
+        <main>
+          <SearchForm onSearch={handleSearch} loading={loading} isLocationAvailable={!!userLocation} />
+
+          {loading && <StatusDisplay statuses={statusMessages} />}
+
+          {error && (
+            <div className="text-center mt-8 p-4 bg-red-900/50 border border-red-700 text-red-300 rounded-lg max-w-2xl mx-auto">
+              <p><strong>Error:</strong> {error}</p>
+            </div>
+          )}
+          
+          {!loading && <ResultsDisplay results={results} />}
+        </main>
+      </div>
     </div>
   );
 };
