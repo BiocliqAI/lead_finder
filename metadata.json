@@ -1,6 +1,6 @@
 {
-  "name": "Diagnostic & Specialist Finder",
-  "description": "An application to find top-rated diagnostic centers in a city and locate nearby specialists like urologists, cardiologists, and diabetologists using Gemini with Google Search and Maps grounding.",
+  "name": "Biocliq Lead Finder",
+  "description": "An AI-powered application to find top-rated diagnostic centers and nearby specialists, helping you find quality leads in the healthcare sector.",
   "requestFramePermissions": [
     "geolocation"
   ]
