@@ -76,10 +76,9 @@ export const findCentersAndSpecialists = async (
   try {
     onStatusUpdate(`Finding ${numberOfCentersText} diagnostic centers with CT machines ${statusUpdateLocationText}...`);
     response = await ai.models.generateContent({
-      model: "gemini-2.5-pro",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
-        maxOutputTokens: 8192,
         tools: [{ googleSearch: {} }, { googleMaps: {} }],
         ...(userLocation && {
           toolConfig: {
@@ -98,7 +97,7 @@ export const findCentersAndSpecialists = async (
     let jsonText = response.text;
 
     // The model response might be wrapped in markdown ```json ... ``` or just be a raw JSON string.
-    const jsonMatch = jsonText.match(/```json\s*([\sS]*?)\s*```/);
+    const jsonMatch = jsonText.match(/```json\s*([\s\S]*?)\s*```/);
     if (jsonMatch && jsonMatch[1]) {
       jsonText = jsonMatch[1];
     } else {
@@ -141,9 +140,7 @@ export const findCentersAndSpecialists = async (
         userFriendlyError = "The response from the AI was not in a valid format. This may be due to the complexity of the request. Try reducing the number of centers or specialties.";
     } else {
         const errorString = (error instanceof Error) ? error.message : JSON.stringify(error);
-        if (errorString.includes("overloaded") || errorString.includes("503") || errorString.includes("UNAVAILABLE")) {
-           userFriendlyError = "The AI model is currently experiencing high traffic. Please wait a moment and try your search again.";
-        } else if (errorString.includes("Internal error encountered") || errorString.includes("500")) {
+        if (errorString.includes("Internal error encountered") || errorString.includes("500")) {
            userFriendlyError = "The AI model encountered an internal error, likely due to the request's complexity. Please try searching for fewer centers or a different city.";
         } else if (error instanceof Error) {
            userFriendlyError = error.message;
