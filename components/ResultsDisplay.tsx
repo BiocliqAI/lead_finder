@@ -7,7 +7,7 @@ const CenterCard: React.FC<{ center: DiagnosticCenter; onShowSpecialists: () => 
   <div className="bg-slate-800/50 border border-slate-700 rounded-lg shadow-xl p-6 flex flex-col justify-between transition-transform hover:scale-[1.02] duration-300">
     <div>
       <div className="flex justify-between items-start mb-2">
-        <h3 className="text-xl font-bold text-teal-300 pr-2">{center.name}</h3>
+        <h3 className="text-xl font-bold text-sky-300 pr-2">{center.name}</h3>
         {center.googleRating > 0 && (
           <div className="flex-shrink-0 flex items-center gap-1 bg-slate-700 px-3 py-1 rounded-full text-sm" title={`Google Rating: ${center.googleRating.toFixed(1)}`}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-amber-400" viewBox="0 0 20 20" fill="currentColor">
@@ -19,12 +19,12 @@ const CenterCard: React.FC<{ center: DiagnosticCenter; onShowSpecialists: () => 
       </div>
 
       {center.hasCTMachine && (
-        <span className="text-xs font-medium bg-teal-500/20 text-teal-300 px-2 py-1 rounded-full mb-4 inline-block">
+        <span className="text-xs font-medium bg-cyan-500/20 text-cyan-300 px-2 py-1 rounded-full mb-4 inline-block">
           ✓ CT Machine Available
         </span>
       )}
 
-      <div className="space-y-2 text-blue-100 mb-4">
+      <div className="space-y-2 text-slate-300 mb-4">
         <p className="flex items-start">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-slate-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg>
           <span>{center.address}</span>
@@ -36,7 +36,7 @@ const CenterCard: React.FC<{ center: DiagnosticCenter; onShowSpecialists: () => 
           </p>
         )}
         {center.contactDetails.website && (
-          <a href={center.contactDetails.website} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+          <a href={center.contactDetails.website} target="_blank" rel="noopener noreferrer" className="flex items-center text-sky-400 hover:text-sky-300 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" /><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" /></svg>
             Visit Website
           </a>
@@ -45,8 +45,8 @@ const CenterCard: React.FC<{ center: DiagnosticCenter; onShowSpecialists: () => 
       
       {center.userReviewSummary && (
         <div className="my-4 border-t border-slate-700 pt-4">
-          <h4 className="text-sm font-semibold text-teal-200 mb-2">What Users Say</h4>
-          <blockquote className="text-sm text-blue-100 italic border-l-2 border-teal-500 pl-3">
+          <h4 className="text-sm font-semibold text-slate-400 mb-2">What Users Say</h4>
+          <blockquote className="text-sm text-slate-300 italic border-l-2 border-sky-500 pl-3">
             {center.userReviewSummary}
           </blockquote>
         </div>
@@ -56,7 +56,7 @@ const CenterCard: React.FC<{ center: DiagnosticCenter; onShowSpecialists: () => 
     <div className="mt-auto pt-4 border-t border-slate-700">
         <button
             onClick={onShowSpecialists}
-            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2"
+            className="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2"
         >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
@@ -72,7 +72,7 @@ const GroundingSources: React.FC<{ sources: ApiResponse['groundingSources'] }> =
 
     return (
         <div className="mt-12 text-center">
-            <h3 className="text-lg font-semibold text-teal-200 mb-3">Data Sources</h3>
+            <h3 className="text-lg font-semibold text-slate-400 mb-3">Data Sources</h3>
             <div className="flex flex-wrap justify-center gap-4">
                 {sources.map((source, index) => (
                     <a
@@ -80,7 +80,7 @@ const GroundingSources: React.FC<{ sources: ApiResponse['groundingSources'] }> =
                         href={source.uri}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm bg-slate-700 text-blue-300 px-3 py-1 rounded-full hover:bg-slate-600 transition-colors"
+                        className="text-sm bg-slate-700 text-sky-300 px-3 py-1 rounded-full hover:bg-slate-600 transition-colors"
                     >
                         {source.title || (source.type === 'maps' ? 'Google Maps' : 'Google Search')}
                     </a>
@@ -98,7 +98,7 @@ export const ResultsDisplay: React.FC<{ results: ApiResponse | null }> = ({ resu
   }
   
   if (results.diagnosticCenters.length === 0) {
-    return <p className="text-center text-blue-200 mt-8">No diagnostic centers with CT machines were found. Please try a different city.</p>;
+    return <p className="text-center text-slate-400 mt-8">No diagnostic centers with CT machines were found. Please try a different city.</p>;
   }
 
   return (

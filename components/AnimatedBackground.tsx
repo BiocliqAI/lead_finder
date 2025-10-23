@@ -18,7 +18,7 @@ const AnimatedBackground: React.FC = () => {
 
     resizeCanvas();
 
-    const particleColor = 'rgba(96, 165, 250, 0.7)'; // blue-400
+    const particleColor = 'rgba(56, 189, 248, 0.7)'; // sky-400
 
     class Particle {
       x: number;
@@ -72,7 +72,7 @@ const AnimatedBackground: React.FC = () => {
 
           if (distance < 150) {
             opacityValue = 1 - (distance / 150);
-            context.strokeStyle = `rgba(45, 212, 191, ${opacityValue * 0.2})`;
+            context.strokeStyle = `rgba(56, 189, 248, ${opacityValue * 0.2})`;
             context.lineWidth = 1;
             context.beginPath();
             context.moveTo(particles[a].x, particles[a].y);

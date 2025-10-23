@@ -15,26 +15,40 @@ export const findCentersAndSpecialists = async (
   userLocation: { latitude: number; longitude: number } | null,
   onStatusUpdate: (message: string) => void
 ): Promise<ApiResponse> => {
-  const numberOfCentersText = `the top ${numberOfCenters}`;
+  const numberOfCentersText = numberOfCenters === 'all' ? 'all available' : `the top ${numberOfCenters}`;
   const specialtiesListText = specialties.join(', ');
-  const specialtiesJsonDefinition = specialties.map(s => `        "${s.toLowerCase()}": [ { "name": "string", "address": "string", "phone": "string" } ]`).join(',\n');
+  const specialtiesJsonDefinition = specialties.map(s => `"${s.toLowerCase()}": [ { "name": "string", "address": "string", "phone": "string" } ]`).join(',\n            ');
+
+  const quantityInstruction = numberOfCenters === 'all'
+    ? "For 'all available' centers, perform a comprehensive search and list as many high-quality results as you can find. Do not limit yourself to a small number like 5."
+    : `Find exactly ${numberOfCenters} of the top-rated centers.`;
 
   const locationText = city
-    ? `in the city of "${city}"`
-    : `within a 5km radius of the user's current location`;
+    ? `in "${city}"`
+    : `within a 5km radius of the provided geo-coordinates`;
 
   const prompt = `
-    **Primary Goal:** Find diagnostic centers and nearby medical specialists, then format the output as a single JSON object.
+    You are an AI assistant that finds medical facilities and returns the data in a specific JSON format.
 
-    **Instructions:**
-    1.  **Find Diagnostic Centers:** Search for ${numberOfCentersText} diagnostic centers ${locationText}.
-    2.  **Required Amenity:** Each center found MUST have a CT machine.
-    3.  **Find Nearby Specialists (for each center):** For every diagnostic center you find, search for specialists within a 5km radius in these categories: ${specialtiesListText}.
-    4.  **Handle Missing Specialists:** If you cannot find any specialists for a specific category at a center, you MUST return an empty array \`[]\` for that specialty.
+    **Primary Task:**
+    Find ${numberOfCentersText} diagnostic centers ${locationText} that have a CT machine. ${quantityInstruction}
 
-    **CRITICAL: Output Format**
-    - Your entire response MUST be ONLY the JSON object. Do not include any other text, explanations, or markdown fences.
-    - The JSON object must strictly follow this structure:
+    **Secondary Task (MANDATORY for EACH center found):**
+    For each diagnostic center, find nearby specialists in the following categories: ${specialtiesListText}. The search should be within a 5km radius of the center's address.
+
+    **Data Requirements for each Center:**
+    - name: Full name of the center.
+    - address: Complete address.
+    - contactDetails: phone number and website.
+    - googleRating: The numerical Google rating.
+    - userReviewSummary: A concise summary of user reviews.
+    - hasCTMachine: Must be \`true\`.
+    - nearbySpecialists: An object where each key is a specialty from the list above (in lowercase). The value for each key must be an array of specialist objects ({name, address, phone}). If no specialists are found for a category, you MUST return an empty array \`[]\`.
+
+    **Output Format Instructions:**
+    - The ENTIRE response must be a single, valid JSON object.
+    - Do NOT include any text, notes, or markdown (like \`\`\`json\`) outside of the JSON structure.
+    - The JSON structure MUST be:
     {
       "diagnosticCenters": [
         {
@@ -45,10 +59,10 @@ export const findCentersAndSpecialists = async (
             "website": "string"
           },
           "googleRating": 4.5,
-          "userReviewSummary": "A brief summary of what people say in reviews.",
+          "userReviewSummary": "string",
           "hasCTMachine": true,
           "nearbySpecialists": {
-${specialtiesJsonDefinition}
+            ${specialtiesJsonDefinition}
           }
         }
       ]
@@ -62,7 +76,7 @@ ${specialtiesJsonDefinition}
   try {
     onStatusUpdate(`Finding ${numberOfCentersText} diagnostic centers with CT machines ${statusUpdateLocationText}...`);
     response = await ai.models.generateContent({
-      model: "gemini-2.5-pro",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         tools: [{ googleSearch: {} }, { googleMaps: {} }],
@@ -126,7 +140,7 @@ ${specialtiesJsonDefinition}
         userFriendlyError = "The response from the AI was not in a valid format. This may be due to the complexity of the request. Try reducing the number of centers or specialties.";
     } else {
         const errorString = (error instanceof Error) ? error.message : JSON.stringify(error);
-        if (errorString.includes("Internal error encountered") || errorString.includes("500") || errorString.includes("xhr error")) {
+        if (errorString.includes("Internal error encountered") || errorString.includes("500")) {
            userFriendlyError = "The AI model encountered an internal error, likely due to the request's complexity. Please try searching for fewer centers or a different city.";
         } else if (error instanceof Error) {
            userFriendlyError = error.message;
