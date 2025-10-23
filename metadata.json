@@ -1,0 +1,7 @@
+{
+  "name": "Diagnostic & Specialist Finder",
+  "description": "An application to find top-rated diagnostic centers in a city and locate nearby specialists like urologists, cardiologists, and diabetologists using Gemini with Google Search and Maps grounding.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
