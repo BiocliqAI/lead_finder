@@ -98,11 +98,18 @@ const App: React.FC = () => {
     setLoading(true);
     setError(null);
     setResults(null);
-    setStatusMessages(['Initializing search...']);
+    const initialMessage = city ? `Initializing search for "${city}"...` : 'Initializing search using your location...';
+    setStatusMessages([initialMessage]);
     
     const handleStatusUpdate = (newMessage: string) => {
       setStatusMessages(prev => [...prev, newMessage]);
     };
+
+    if (!city && !userLocation) {
+      setError("Current location is not available. Please enter a city or grant location permission.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const data = await findCentersAndSpecialists(city, numberOfCenters, specialties, userLocation, handleStatusUpdate);
@@ -127,7 +134,7 @@ const App: React.FC = () => {
       </header>
       
       <main>
-        <SearchForm onSearch={handleSearch} loading={loading} />
+        <SearchForm onSearch={handleSearch} loading={loading} isLocationAvailable={!!userLocation} />
 
         {loading && <StatusDisplay statuses={statusMessages} />}
 

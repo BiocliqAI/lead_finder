@@ -3,10 +3,11 @@ import { SpecialtySelector } from './SpecialtySelector';
 
 interface SearchFormProps {
   onSearch: (city: string, numberOfCenters: string, specialties: string[]) => void;
+  isLocationAvailable: boolean;
   loading: boolean;
 }
 
-export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, loading }) => {
+export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLocationAvailable, loading }) => {
   const [city, setCity] = useState('');
   const [numberOfCenters, setNumberOfCenters] = useState('5');
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([
@@ -17,6 +18,13 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, loading }) => 
     e.preventDefault();
     if (city.trim() && selectedSpecialties.length > 0) {
       onSearch(city.trim(), numberOfCenters, selectedSpecialties);
+    }
+  };
+
+  const handleLocationSearch = () => {
+    if (isLocationAvailable && selectedSpecialties.length > 0) {
+      setCity(''); // Clear the input field
+      onSearch('', numberOfCenters, selectedSpecialties);
     }
   };
 
@@ -31,6 +39,18 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, loading }) => 
           className="w-full px-6 py-4 bg-transparent focus:outline-none text-slate-100 placeholder-slate-500"
           disabled={loading}
         />
+        <button
+          type="button"
+          onClick={handleLocationSearch}
+          disabled={loading || !isLocationAvailable || selectedSpecialties.length === 0}
+          className="flex-shrink-0 px-4 py-1.5 mx-2 rounded-lg border border-slate-700 text-slate-400 hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex flex-col items-center justify-center"
+          title={!isLocationAvailable ? "Location permission not granted or unavailable" : "Use my current location"}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+          </svg>
+          <span className="text-xs font-medium mt-1">Or Near Me</span>
+        </button>
         <button
           type="submit"
           disabled={loading || !city.trim() || selectedSpecialties.length === 0}
@@ -59,7 +79,6 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, loading }) => 
           >
             <option value="5">Top 5</option>
             <option value="10">Top 10</option>
-            <option value="all">All</option>
           </select>
         </div>
         <div>
